@@ -7,7 +7,7 @@ const pertanyaan = [
     updatedAt: new Date()
   },
   {
-    soal: "The programming language &quot;Python&quot; is based off a modified version of JavaScript",
+    soal: "The programming language Python is based off a modified version of JavaScript",
     jawab: false,
     createdAt: new Date(),
     updatedAt: new Date()
