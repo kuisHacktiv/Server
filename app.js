@@ -12,8 +12,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use("/", routes)
 
-io.on("connection", function () {
+io.on("connection", function (socket) {
     console.log("a user connected")
+    socket.on("createRoom", function (roomname) {
+        socket.join(roomname)
+    })
 })
 
 http.listen(PORT, () => {
