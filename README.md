@@ -109,6 +109,7 @@ Returns json data. ​
 None ​
 
 - **Data Params** ​ id = [integrer]  
+
    name = [string] ​
 - **Success Response:**
 
@@ -151,6 +152,7 @@ Returns json data. ​
 None ​
 
 - **Data Params** ​ id = [integrer]  
+
    UserId = [integer] ​
 - **Success Response:**
 
