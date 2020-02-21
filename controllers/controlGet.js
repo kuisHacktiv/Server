@@ -69,8 +69,8 @@ class ControlAll {
             .then(roomUsers => {
                 for (let i of roomUsers) {
                     if (i.UserId == req.body.userId) {
-                        // res.status(400).json({ message: "KAMU SUDAH MASUK" })
-                        throw ({ message: "KAMU SUDAH MASUK" })
+                        // throw ({ message: "KAMU SUDAH MASUK" })
+                        return i
                     }
                 }
                 if (roomUsers.length > 4) {
@@ -78,23 +78,33 @@ class ControlAll {
                     throw ({ message: "OOPS ROOM FULL" })
                 }
                 else {
+                    // console.log("masuk sini ")
                     return Room.findOne({ where: { roomname: req.body.roomname } })
                 }
             })
             .then(roomFound => {
+                // console.log(roomFound.UserId, "<<<<< ini room found")
                 if (roomFound) {
-                    return RoomUser.create({
-                        RoomId: roomFound.id,
-                        UserId: req.body.userId,
-                        name: req.body.roomname
-                    })
+
+                    if (roomFound.UserId) {
+                        return roomFound
+                    } else {
+                        console.log("masuk sini")
+                        return RoomUser.create({
+                            RoomId: roomFound.id,
+                            UserId: req.body.userId,
+                            name: req.body.roomname
+                        })
+                    }
+                } else {
+                    throw ({ message: "Room not found" })
                 }
             })
             .then(roomUserCreated => {
                 res.status(201).json(roomUserCreated)
             })
             .catch(err => {
-                console.log(err, "<< ini error")
+                // console.log(err, "<< ini error")
                 res.status(500).json(err)
             })
     }
@@ -104,6 +114,33 @@ class ControlAll {
                 res.status(200).json(rooms)
             })
             .catch(err => {
+                res.status(500).json(err)
+            })
+    }
+
+    static leaveRoom(req, res) {
+        let roomUserToDelete
+        RoomUser.findOne({ where: { UserId: req.body.userId, name: req.body.roomname } })
+            .then(roomFound => {
+                roomUserToDelete = roomFound
+                return RoomUser.destroy({ where: { UserId: req.body.userId, name: req.body.roomname } })
+            })
+            .then(() => {
+                res.status(200).json({ message: `You left ${roomUserToDelete.name}` })
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+    }
+
+    static getDetailRoomByName(req, res) {
+        console.log(req.body)
+        RoomUser.findAll({ where: { name: req.params.roomName }, include: [User, Room] })
+            .then(roomFound => {
+                res.status(200).json(roomFound)
+            })
+            .catch(err => {
+                console.log(err, "<<")
                 res.status(500).json(err)
             })
     }
