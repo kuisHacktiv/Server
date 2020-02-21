@@ -16,6 +16,7 @@ io.on("connection", function (socket) {
     console.log("a user connected")
     socket.on("createRoom", function (roomname) {
         socket.join(roomname)
+        console.log('emit fethroomUland dr server')
         io.emit("fetchRoomUlang")
     })
     socket.on("joinRoom", function (roomname) {
@@ -31,8 +32,12 @@ io.on("connection", function (socket) {
     socket.on("leaveRoom", function (roomname) {
         socket.leave(roomname)
     })
-    socket.on("adayangmenang", function () {
-        io.emit("gameover")
+    socket.on("adayangmenang", function (obj) {
+        // io.emit("gameover")
+        socket.broadcast.to(obj.roomname).emit("gameover", obj.winner)
+    })
+    socket.on("ayomulai", function (roomname) {
+        socket.broadcast.to(roomname).emit("letsgo")
     })
 })
 
