@@ -17,6 +17,7 @@ io.on('connection', function(socket) {
   socket.on('createRoom', function(roomname) {
     socket.join(roomname)
     // console.log('emit fethroomUland dr server')
+    // aasda
     io.emit('fetchRoomUlang')
   })
   socket.on('joinRoom', function(roomname) {
