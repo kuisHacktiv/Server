@@ -16,7 +16,7 @@ io.on('connection', function(socket) {
   console.log('a user connected')
   socket.on('createRoom', function(roomname) {
     socket.join(roomname)
-    console.log('emit fethroomUland dr server')
+    // console.log('emit fethroomUland dr server')
     io.emit('fetchRoomUlang')
   })
   socket.on('joinRoom', function(roomname) {

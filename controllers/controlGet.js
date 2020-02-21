@@ -154,11 +154,11 @@ class ControlAll {
     // console.log(req.params, 'parmas')
     Room.findOne({
       where: {
-        name: req.params.name
+        roomname: req.params.name
       }
     })
       .then((result) => {
-        console.log(result.id)
+        console.log(result)
         return RoomUser.findAll({
           where: {
             RoomId: result.id
