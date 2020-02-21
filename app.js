@@ -16,6 +16,23 @@ io.on("connection", function (socket) {
     console.log("a user connected")
     socket.on("createRoom", function (roomname) {
         socket.join(roomname)
+        io.emit("fetchRoomUlang")
+    })
+    socket.on("joinRoom", function (roomname) {
+        socket.join(roomname)
+    })
+    socket.on("randomIndex", function (index) {
+        // ini masih belom room, masih ke emit ke semuanya, nanti kalo udah room (sebenernya tinggal tambah parameter di router link aja sih)
+        // param yang dikirim dari kliennya ganti jadi obj payload = {index:index, roomname: roomname}
+        // biar nanti pas emitnya jadi 
+        // socket.broadcast.to(payload.roomname).emit("changeIndex", index)
+        socket.broadcast.emit("changeIndex", index)
+    })
+    socket.on("leaveRoom", function (roomname) {
+        socket.leave(roomname)
+    })
+    socket.on("adayangmenang", function () {
+        io.emit("gameover")
     })
 })
 

@@ -6,4 +6,6 @@ routes.post("/rooms", controller.createRoom)
 routes.post("/users", controller.createUser)
 routes.post("/join", controller.joinRoom)
 routes.get("/rooms", controller.getAllRooms)
+routes.delete("/roomUser", controller.leaveRoom)
+routes.get("/roomDetail/:roomName", controller.getDetailRoomByName)
 module.exports = routes
